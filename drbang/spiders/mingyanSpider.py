@@ -1,17 +1,21 @@
 import scrapy
 class mingyanSpider(scrapy.Spider):
-    name = "quotes" 
+    name = "menus" 
     start_urls = [
-        'http://lab.scrapyd.cn/',
+        'https://www.huabaike.com/',
     ]
 
     def parse(self, response):
-        for quote in response.css('div.quote'):
+        for menu in response.css('div.rightmenubox a'):
             yield {
-                '内容': quote.css('span.text::text').extract_first(),
-                '作者': quote.xpath('span/small/text()').extract_first(),
+                'name': menu.css('::text').extract_first(),
+                'href': menu.css('::attr("href")').extract_first()
             }
 
-        next_page = response.css('li.next a::attr("href")').extract_first()
-        if next_page is not None:
-            yield scrapy.Request(next_page, self.parse)
+    def parse(self, response):
+        for menu in response.css('ul.wzRcontent li'):
+            yield {
+                'name': menu.css('a::text').extract_first(),
+                'href': menu.css('a::attr("href")').extract_first(),
+                'redu': menu.css('span.redu_yhzs::text').extract_first(),
+            }

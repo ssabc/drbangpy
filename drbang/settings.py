@@ -18,7 +18,8 @@ NEWSPIDER_MODULE = 'drbang.spiders'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
-
+FEED_FORMAT = "json"
+FEED_EXPORT_ENCODING = "UTF-8"
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
